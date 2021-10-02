@@ -4,6 +4,7 @@
   }
   
   body {
+    min-width: 300px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -117,8 +118,8 @@
     background: rgb(185, 24, 110);
   }
 
-  .counter-slidein {
-      animation: slidedown 20s;
+  .counter-slide-animation {
+      animation: slidedown 21s;
       animation-timing-function: linear;
 
   }
