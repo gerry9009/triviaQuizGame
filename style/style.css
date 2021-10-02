@@ -106,7 +106,7 @@
     border: 3px solid rgb(255, 255, 255);
   }
   
-  /*
+  
   .counter {
     position: absolute;
     z-index: 1;
@@ -116,7 +116,24 @@
     width: .6vw;
     background: rgb(185, 24, 110);
   }
-  */
+
+  .counter-slidein {
+      animation: slidedown 20s;
+      animation-timing-function: linear;
+
+  }
+
+  
+  @keyframes slidedown {
+      from {
+        top: 0;
+      }
+      to {
+        top: 100%;
+      }
+  }
+
+
   @media screen and (min-width: 370px) {
     footer {
       visibility: visible;
@@ -155,7 +172,7 @@
     background: rgb(17, 161, 17);
   }
   
-  .wrongAnswer {
+  .wrongAnswer { 
     background: rgb(202, 14, 14);
   }
   
