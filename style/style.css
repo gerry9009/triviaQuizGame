@@ -71,6 +71,13 @@
     min-height: 45vh;
     max-width: 1024px;
   }
+
+  .menu-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
   
   .question {
     display: flex;
@@ -114,7 +121,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: .6vw;
+    width: .8vw;
     background: rgb(185, 24, 110);
   }
 

@@ -4,6 +4,11 @@ let randomOrderedPuzzle, puzzle, question, correctAnswer, incorrectAnswers, answ
 let points, allPuzzle = 0;
 let statusOfAnswers;
 
+//TODO CALL function-----------------------------------------
+renderMainMenu();
+addEventListenerToMainButton()
+
+
 
 function fetchAPI(API) {
   fetch(API)
@@ -40,8 +45,8 @@ function fetchAPI(API) {
 }
 
 /**
- * -----------------------------------------------------------------------------------------------
- * list of my useful function
+ * *-----------------------------------------------------------------------------------------------
+ * *list of my useful function
  */
 
 function randomOrderedLengthArr(arr, num) {
@@ -82,18 +87,40 @@ function evaluationOfResult(guested){
         }, 2000);
     }
 
-    setTimeout(() => {
-        fetchAPI(API_URL);
-    }, 3500);
+//TODO----------------------------------------- 
+    if (allPuzzle == 15) {
+        setTimeout(() => {
+            renderMainMenu();
+            addEventListenerToMainButton();
+        }, 4000);
+        
+    } else {
+        setTimeout(() => {
+            fetchAPI(API_URL);
+        }, 3500);
+    }
+    
 
 }
 
 
 
 /**
- * -----------------------------------------------------------------------------------------------
- * render functions
+ * *-----------------------------------------------------------------------------------------------
+ * *render functions
  */
+
+
+//TODO------------------------------------------------------------------------------------
+//render main menu section
+function renderMainMenu() {
+    let menu = ` 
+        <div class="menu-container">
+            <button class="new-game-button js-button">New Game</button>
+        </div>
+    `;
+    document.querySelector(".container").innerHTML = menu;
+}
 
 
 //render puzzle
@@ -116,7 +143,7 @@ function renderPuzzle(question, arrOfAnswers) {
 
 
 
-//render the correct answer
+//render answers
 function renderResult(correctAnswer, guested) {
         const orderedOfCorrectAnswer = answerOptions.findIndex(
             (element) => element === correctAnswer
@@ -157,26 +184,29 @@ function renderPoints(points, allPuzzle) {
 
 
 /**
- * -----------------------------------------------------------------------------------------------
- *  add event listeners
+ * *-----------------------------------------------------------------------------------------------
+ * *add event listeners
  */
 
 
 // after onsumbit action in new game button - eventlistener
-document.querySelector(".js-button").addEventListener("click", () => {
-    points = 0;
-    allPuzzle = 0;
-    renderPoints(points, allPuzzle);
-    fetchAPI(API_URL);
-});
+function addEventListenerToMainButton() {
+    document.querySelector(".js-button").addEventListener("click", () => {
+        points = 0;
+        allPuzzle = 0;
+        renderPoints(points, allPuzzle);
+        fetchAPI(API_URL);
+    });
+}
 
 
 // after onsumbit action in new question button - eventlistener
 function addEventListenerToAnswersOptions() {
     const boxes = document.querySelectorAll(".js-answers");
     
+    // start-counter
     var seconds = 20;
-
+     
     document.querySelector('.js-couter').classList.add('counter-slide-animation');
     const countDown = setInterval( () => {
             if (!statusOfAnswers) {
@@ -188,8 +218,8 @@ function addEventListenerToAnswersOptions() {
             if (seconds === 0 && !statusOfAnswers) {
                 evaluationOfResult(false);
             }
-            console.log(seconds);
-            seconds--
+
+            seconds--;
         }, 1000
     );
 
@@ -206,30 +236,3 @@ function addEventListenerToAnswersOptions() {
     }
 }
 
-
-/*
-function counterStart(seconds) {
-    console.log('meghivodik megint a counter');
-    document.querySelector('.js-couter').classList.add('counter-slide-animation');
-    // timer finished
-    let countDown = setInterval( () => {
-        if (!statusOfAnswers) {
-            console.log("lefut a clearInterval");
-            clearInterval(countDown);
-        }  
-        if ( seconds === 0) {
-            statusOfAnswers = false;
-            clearInterval(countDown);
-        };
-        if (seconds === 0 && !statusOfAnswers) {
-            clearInterval(countDown);
-            evaluationOfResult(false);
-        }
-              
-        console.log(seconds);
-
-        seconds--
-
-    }, 1000);
-}
-*/
