@@ -1,6 +1,8 @@
 * {
     text-align: center;
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    /* #0bae72 */
   }
   
   body {
@@ -20,6 +22,13 @@
     color: rgb(0, 0, 0);
     visibility: hidden;
   }
+
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
   
   .footer-anchor {
     margin-left: 0.5rem;
@@ -29,7 +38,7 @@
   
   .footer-anchor:hover {
     text-decoration: underline;
-    color: rgb(216, 140, 180);
+    color: rgb(185, 24, 110);
   }
   
   .points {
@@ -37,31 +46,92 @@
     width: 100vw;
     font-size: 1.3rem;
     margin-bottom: 1vh;
+    visibility: hidden;
   }
-  
-  .new-game-button {
+
+  .form {
+    width: 100%;
+  } 
+
+  .form-description {
+    color: rgb(185, 24, 110); 
+    border-radius: 100px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .1rem;
+    padding: .4rem;
+    margin-bottom: .4rem;
+  }
+
+  .form-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+    min-width: 280px;
+    max-width: 500px;
+    margin-bottom: .5vh;
+    padding: .4rem .6rem;
+    border-radius: 100px;
+    cursor: pointer;
+    
+  }
+
+  .form-label:hover,
+  .form-label:focus-within {
+    background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.692), rgb(255, 255, 255));
+  }
+
+  .form-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .form-name {
+    color: rgb(88, 88, 88);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .8rem;
+  }
+
+  .form-point {
+    color: rgb(88, 88, 88);
+    font-weight: 700;
+    font-size: .8rem;
+  }
+
+  .form-input:checked~.form-name,
+  .form-input:checked~.form-point  {
+    color: rgb(185, 24, 110);
+  }
+
+  .form-submit-btn {
     display: block;
     position: relative;
-    margin: 0.5em 0;
-    padding: 0.8em 2.2em;
+    margin: 0 0 0.5rem;
+    padding: 0.8rem 2rem;
     cursor: pointer;
-    text-decoration: none;
-  
     background: #000000;
     color: #ffffff;
     border: none;
-    border-radius: 0.4em;
-  
+    border-radius: 0.4rem;
     text-transform: uppercase;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     font-family: "Work Sans", sans-serif;
     font-weight: 700;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+    letter-spacing: .1rem;
+    text-shadow: 0 0.04rem 0.04rem rgba(255, 255, 255, 0.253);
   }
   
-  .new-game-button:hover {
-    color: black;
+  .form-submit-btn:hover {
+    color: rgb(185, 24, 110);
     background-color: rgb(255, 255, 255);
   }
   
@@ -73,17 +143,9 @@
   }
 
   .menu-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
   }
   
   .question {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
     margin: 2vh 0;
     font-size: 1.2rem;
   }
@@ -101,10 +163,6 @@
   .answers {
     min-height: 50px;
     border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
     cursor: pointer;
     background-color: rgb(58, 58, 58);
     color: rgb(255, 255, 255);
@@ -122,6 +180,7 @@
     top: 0;
     bottom: 0;
     width: .8vw;
+    min-width: 6px;
     background: rgb(185, 24, 110);
   }
 
@@ -149,7 +208,23 @@
   }
   
   @media screen and (min-width: 762px) {
-    .new-game-button {
+    .form-description {
+      font-size: 1rem;
+    }
+
+    .form-name {
+      letter-spacing: .3rem;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .form-point {
+      letter-spacing: .3rem;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .form-submit-btn {
       font-size: 1em;
     }
   
@@ -184,3 +259,6 @@
     background: rgb(202, 14, 14);
   }
   
+  .visible {
+    visibility: visible;
+  }

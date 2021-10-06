@@ -1,14 +1,71 @@
-const API_URL = "https://api.trivia.willfry.co.uk/questions?limit=20";
+let API_URL;
+let playedTheme;
 
 let randomOrderedPuzzle, puzzle, question, correctAnswer, incorrectAnswers, answerOptions;
 let points, allPuzzle = 0;
 let statusOfAnswers;
+let maximumGame = 15;
 
-//TODO CALL function-----------------------------------------
-renderMainMenu();
-addEventListenerToMainButton()
+let themes = {
+    Food : {
+        id : "food_and_drink",
+        name: "Food",
+        points: 0
+    },
+    Geography : {
+        id : "geography",
+        name : "Geography",
+        points: 0
+    },  
+    General : {
+        id : "general_knowledge",
+        name : "General Knowledge",
+        points: 0
+    },
+    History : {
+        id : "history",
+        name : "History",
+        points: 0
+    },
+    Art : {
+        id : "literature",
+        name : "Art and Literature",
+        points: 0
+    },
+    Movies : {
+        id : "movies",
+        name : "Movies",
+        points: 0
+    },
+    Music : {
+        id : "music",
+        name : "Music",
+        points: 0
+    },
+    Science : {
+        id : "science",
+        name : "Science",
+        points: 0
+    },
+    Society : {
+        id : "society_and_culture",
+        name : "Society and Culture",
+        points: 0
+    },
+    Sport : {
+        id : "sport_and_leisure",
+        name : "Sport and Leisure",
+        points: 0
+    }
+};
+    
 
 
+
+/**
+ * *-----------------------------------------------------------------------------------------------
+ * *fetch function
+ */
 
 function fetchAPI(API) {
   fetch(API)
@@ -66,7 +123,7 @@ function randomOrderedLengthArr(arr, num) {
 function getPuzzle(question, answerOptions) {
     statusOfAnswers = true;   
     renderPuzzle(question, answerOptions);
-    addEventListenerToAnswersOptions(); 
+    addEventListenerToAnswersOptions();
 }
 
 // evaluation of the result
@@ -87,11 +144,17 @@ function evaluationOfResult(guested){
         }, 2000);
     }
 
-//TODO----------------------------------------- 
-    if (allPuzzle == 15) {
-        setTimeout(() => {
-            renderMainMenu();
+    if (allPuzzle == maximumGame) {
+        setTimeout(() => {                
+            Object.values(themes).forEach(  theme => {
+                if (theme.id === playedTheme.value) {
+                    theme.points >= points ? theme.points : theme.points = points;
+                }
+            });
+            renderMainMenu(themes);
             addEventListenerToMainButton();
+            // remove points visibility
+            document.querySelector(".js-points").classList.remove("visible");
         }, 4000);
         
     } else {
@@ -100,7 +163,6 @@ function evaluationOfResult(guested){
         }, 3500);
     }
     
-
 }
 
 
@@ -110,15 +172,39 @@ function evaluationOfResult(guested){
  * *render functions
  */
 
-
-//TODO------------------------------------------------------------------------------------
 //render main menu section
-function renderMainMenu() {
+function renderMainMenu(themesObject) {
+    let formInput = '';
+    let objectKeys = Object.keys(themesObject);
+    
+    for (let i = 0; i < objectKeys.length; i++) {
+        let key = objectKeys[i];
+        let check = "";
+        if (i === 0) {
+            check = "checked";
+        }
+        formInput += `     
+                <label class="form-label">
+                    <input type="radio" class="${themesObject[`${key}`]['id']} form-input" name="game_theme" value="${themesObject[`${key}`]['id']}" ${check}/>
+                    <div class="form-name"> ${themesObject[`${key}`]['name']} </div>
+                    <div class="form-point"> ${themesObject[`${key}`]['points']} / ${maximumGame} </div>
+                </label>
+                
+            `;   
+    }
+
     let menu = ` 
-        <div class="menu-container">
-            <button class="new-game-button js-button">New Game</button>
+        <div class="menu-container flex-center"> 
+            <form action="#" class="form flex-center js-form">
+            <input type="submit" value="Start Game" class="form-submit-btn js-form-button" />
+            <div class="form-description">
+            Earn the maximum points in each category
+            </div>    
+            ${formInput}     
+            </form>
         </div>
     `;
+
     document.querySelector(".container").innerHTML = menu;
 }
 
@@ -126,48 +212,53 @@ function renderMainMenu() {
 //render puzzle
 function renderPuzzle(question, arrOfAnswers) {
         // start counter 
-        
-        let puzzle = `
-        <div class="question js-question">
-                ${question}
-            </div>
-            <div class="options js-options">
-                <div class="answers js-answers js-answers-0">${arrOfAnswers[0]}</div>
-                <div class="answers js-answers js-answers-1">${arrOfAnswers[1]}</div>
-                <div class="answers js-answers js-answers-2">${arrOfAnswers[2]}</div>
-                <div class="answers js-answers js-answers-3">${arrOfAnswers[3]}</div>
-            </div>
-        `;
-        document.querySelector(".container").innerHTML = puzzle;
-}
+        let answer = '';
 
+        for (let i = 0; i < arrOfAnswers.length; i++) {
+            answer += `<div class="answers flex-center js-answers js-answers-${i}">${arrOfAnswers[i]}</div>`;
+        }
+     
+        let puzzle = `
+        <div class="question flex-center js-question">
+                ${question}
+        </div>
+        <div class="options js-options">   
+                ${answer}
+        </div>
+        `;
+
+        document.querySelector(".container").innerHTML = puzzle;
+        // render points
+        document.querySelector(".js-points").classList.add("visible");
+}
 
 
 //render answers
 function renderResult(correctAnswer, guested) {
-        const orderedOfCorrectAnswer = answerOptions.findIndex(
+        const numberOfCorrectAnswer = answerOptions.findIndex(
             (element) => element === correctAnswer
         );
     
         if (guested === false) {
             document
-            .querySelector(`.js-answers-${orderedOfCorrectAnswer}`)
+            .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
             .classList.add("correctAnswer");
         } else {
-            const orderedOfGuestedAnswer = answerOptions.findIndex(
+            const numberOfGuestedAnswer = answerOptions.findIndex(
                 (element) => element === guested
             );
-            if (orderedOfCorrectAnswer === orderedOfGuestedAnswer) {
+
+            if (numberOfCorrectAnswer === numberOfGuestedAnswer) {
                 document
-                .querySelector(`.js-answers-${orderedOfCorrectAnswer}`)
+                .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
                 .classList.add("correctAnswer");
             } else {
                 document
-                .querySelector(`.js-answers-${orderedOfCorrectAnswer}`)
+                .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
                 .classList.add("correctAnswer");
 
                 document
-                .querySelector(`.js-answers-${orderedOfGuestedAnswer}`)
+                .querySelector(`.js-answers-${numberOfGuestedAnswer}`)
                 .classList.add("wrongAnswer");
             }
 
@@ -191,11 +282,18 @@ function renderPoints(points, allPuzzle) {
 
 // after onsumbit action in new game button - eventlistener
 function addEventListenerToMainButton() {
-    document.querySelector(".js-button").addEventListener("click", () => {
+    document.querySelector(".js-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        // get value of the selected theme
+        playedTheme = document.querySelector('input[name="game_theme"]:checked');
+
+        API_URL = `https://api.trivia.willfry.co.uk/questions?categories=${playedTheme.value}&limit=20`;
+ 
+        fetchAPI(API_URL);
         points = 0;
         allPuzzle = 0;
         renderPoints(points, allPuzzle);
-        fetchAPI(API_URL);
     });
 }
 
@@ -236,3 +334,11 @@ function addEventListenerToAnswersOptions() {
     }
 }
 
+
+
+/**
+ * *-----------------------------------------------------------------------------------------------
+ * *render the pages
+ */
+renderMainMenu(themes);
+addEventListenerToMainButton();
