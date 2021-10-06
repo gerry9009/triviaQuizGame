@@ -1,9 +1,8 @@
 let API_URL;
 let playedTheme;
 
-let randomOrderedPuzzle, puzzle, question, correctAnswer, incorrectAnswers, answerOptions;
+let randomOrderedPuzzle, puzzle, question, correctAnswer, incorrectAnswers, answerOptions, statusOfAnswers, numberOfCorrectAnswer, numberOfGuestedAnswer;
 let points, allPuzzle = 0;
-let statusOfAnswers;
 let maximumGame = 15;
 
 let themes = {
@@ -127,19 +126,34 @@ function getPuzzle(question, answerOptions) {
 }
 
 // evaluation of the result
+
+//TODO ez rossz, ujra kell csinalni es a renderelest is a valaszoknak
 function evaluationOfResult(guested){
     //remove counter-slide
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
+
+    numberOfCorrectAnswer = answerOptions.findIndex(
+        (element) => element === correctAnswer
+    );
+    
+    guested !== false ? 
+    numberOfGuestedAnswer = answerOptions.findIndex((element) => element === guested):
+    numberOfGuestedAnswer = guested;
+    
+    
+
     allPuzzle += 1;
-    if (guested === correctAnswer) {
+
+    if (numberOfCorrectAnswer === numberOfGuestedAnswer) {
         points += 1;
-    }
+    };
+
     if (!guested) {
-        renderResult(correctAnswer, guested);
+        renderResult(numberOfCorrectAnswer, numberOfGuestedAnswer);
         renderPoints(points, allPuzzle);    
     } else {
         setTimeout(() => {
-            renderResult(correctAnswer, guested);
+            renderResult(numberOfCorrectAnswer, numberOfGuestedAnswer);
             renderPoints(points, allPuzzle);
         }, 2000);
     }
@@ -198,7 +212,7 @@ function renderMainMenu(themesObject) {
             <form action="#" class="form flex-center js-form">
             <input type="submit" value="Start Game" class="form-submit-btn js-form-button" />
             <div class="form-description">
-            Earn the maximum points in each category
+            Earn the maximum points in each category.
             </div>    
             ${formInput}     
             </form>
@@ -232,38 +246,30 @@ function renderPuzzle(question, arrOfAnswers) {
         document.querySelector(".js-points").classList.add("visible");
 }
 
-
+//TODO ez rossz, ujra kell csinalni es a renderelest is a valaszoknak
 //render answers
-function renderResult(correctAnswer, guested) {
-        const numberOfCorrectAnswer = answerOptions.findIndex(
-            (element) => element === correctAnswer
-        );
+function renderResult(numbOfCorrect, numbOfGuested) {
     
-        if (guested === false) {
+        if (numbOfGuested === false) {
             document
-            .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
+            .querySelector(`.js-answers-${numbOfCorrect}`)
             .classList.add("correctAnswer");
         } else {
-            const numberOfGuestedAnswer = answerOptions.findIndex(
-                (element) => element === guested
-            );
-
-            if (numberOfCorrectAnswer === numberOfGuestedAnswer) {
+            if (numbOfCorrect === numbOfGuested) {
                 document
-                .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
+                .querySelector(`.js-answers-${numbOfCorrect}`)
                 .classList.add("correctAnswer");
             } else {
                 document
-                .querySelector(`.js-answers-${numberOfCorrectAnswer}`)
+                .querySelector(`.js-answers-${numbOfCorrect}`)
                 .classList.add("correctAnswer");
 
                 document
-                .querySelector(`.js-answers-${numberOfGuestedAnswer}`)
+                .querySelector(`.js-answers-${numbOfGuested}`)
                 .classList.add("wrongAnswer");
             }
 
         }        
-   
 }
 
 
@@ -340,5 +346,7 @@ function addEventListenerToAnswersOptions() {
  * *-----------------------------------------------------------------------------------------------
  * *render the pages
  */
+
+
 renderMainMenu(themes);
 addEventListenerToMainButton();
