@@ -13,16 +13,18 @@
     align-items: center;
     background: rgb(194, 194, 194);
   }
-  
-  footer {
-    position: absolute;
-    bottom: 1rem;
-    margin-top: 4rem;
-    font-size: 1rem;
-    color: rgb(0, 0, 0);
-    visibility: hidden;
+
+  h1 {
+    margin-bottom: 1vh;
   }
 
+  .container {
+    width: 90vw;
+    min-height: 45vh;
+    max-width: 1024px;
+  }
+  
+  
   .flex-center {
     display: flex;
     justify-content: center;
@@ -30,38 +32,31 @@
     align-items: center;
   }
   
-  .footer-anchor {
-    margin-left: 0.5rem;
-    text-decoration: underline;
-    color: rgb(0, 0, 0);
-  }
-  
-  .footer-anchor:hover {
-    text-decoration: underline;
-    color: rgb(185, 24, 110);
-  }
-  
-  .points {
-    height: 3vh;
-    width: 100vw;
-    font-size: 1.3rem;
-    margin-bottom: 1vh;
-    visibility: hidden;
-  }
 
   .form {
     width: 100%;
+    margin-top: 4rem;
   } 
 
-  .form-description {
-    color: rgb(185, 24, 110); 
-    border-radius: 100px;
+  .form-submit-btn {
+    display: block;
+    margin: 0 0 2rem;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    background: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.4rem;
     text-transform: uppercase;
+    font-size: 0.8rem;
     font-weight: 700;
-    font-size: .8rem;
     letter-spacing: .1rem;
-    padding: .4rem;
-    margin-bottom: .4rem;
+    text-shadow: 0 0.04rem 0.04rem rgba(255, 255, 255, 0.253);
+  }
+  
+  .form-submit-btn:hover {
+    color: rgb(185, 24, 110);
+    background-color: rgb(255, 255, 255);
   }
 
   .form-label {
@@ -112,41 +107,17 @@
     color: rgb(185, 24, 110);
   }
 
-  .form-submit-btn {
-    display: block;
-    position: relative;
-    margin: 0 0 0.5rem;
-    padding: 0.8rem 2rem;
-    cursor: pointer;
-    background: #000000;
-    color: #ffffff;
-    border: none;
-    border-radius: 0.4rem;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    font-family: "Work Sans", sans-serif;
+  .points {
+    height: 3vh;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
     font-weight: 700;
-    letter-spacing: .1rem;
-    text-shadow: 0 0.04rem 0.04rem rgba(255, 255, 255, 0.253);
-  }
-  
-  .form-submit-btn:hover {
-    color: rgb(185, 24, 110);
-    background-color: rgb(255, 255, 255);
-  }
-  
-  .container {
-    margin-top: 2vh;
-    width: 90vw;
-    min-height: 45vh;
-    max-width: 1024px;
-  }
-
-  .menu-container {
+    font-size: 1.5rem;
   }
   
   .question {
-    margin: 2vh 0;
+    margin: 3rem 0;
     font-size: 1.2rem;
   }
   
@@ -190,6 +161,40 @@
 
   }
 
+  .popup-description {
+    width: 75%;
+    max-width: 500px;
+    color: rgb(185, 24, 110); 
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .1rem;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  .popup-description-paragraph {
+    margin-bottom: .1rem;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 1rem;
+    margin-top: 4rem;
+    font-size: 1rem;
+    color: rgb(0, 0, 0);
+    visibility: hidden;
+  }
+  .footer-anchor {
+    margin-left: 0.5rem;
+    text-decoration: underline;
+    color: rgb(0, 0, 0);
+  }
+  
+  .footer-anchor:hover {
+    text-decoration: underline;
+    color: rgb(185, 24, 110);
+  }
   
   @keyframes slidedown {
       from {

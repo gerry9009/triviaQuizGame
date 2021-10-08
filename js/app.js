@@ -127,20 +127,16 @@ function getPuzzle(question, answerOptions) {
 
 // evaluation of the result
 
-//TODO ez rossz, ujra kell csinalni es a renderelest is a valaszoknak
 function evaluationOfResult(guested){
     //remove counter-slide
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
-
+    
     numberOfCorrectAnswer = answerOptions.findIndex(
         (element) => element === correctAnswer
     );
-    
-    guested !== false ? 
-    numberOfGuestedAnswer = answerOptions.findIndex((element) => element === guested):
-    numberOfGuestedAnswer = guested;
-    
-    
+    guested === false ? 
+    numberOfGuestedAnswer = guested :
+    numberOfGuestedAnswer = parseInt(guested);
 
     allPuzzle += 1;
 
@@ -148,7 +144,7 @@ function evaluationOfResult(guested){
         points += 1;
     };
 
-    if (!guested) {
+    if (guested === false) {
         renderResult(numberOfCorrectAnswer, numberOfGuestedAnswer);
         renderPoints(points, allPuzzle);    
     } else {
@@ -167,14 +163,12 @@ function evaluationOfResult(guested){
             });
             renderMainMenu(themes);
             addEventListenerToMainButton();
-            // remove points visibility
-            document.querySelector(".js-points").classList.remove("visible");
-        }, 4000);
+        }, 3500);
         
     } else {
         setTimeout(() => {
             fetchAPI(API_URL);
-        }, 3500);
+        }, 3000);
     }
     
 }
@@ -210,16 +204,13 @@ function renderMainMenu(themesObject) {
     let menu = ` 
         <div class="menu-container flex-center"> 
             <form action="#" class="form flex-center js-form">
-            <input type="submit" value="Start Game" class="form-submit-btn js-form-button" />
-            <div class="form-description">
-            Earn the maximum points in each category.
-            </div>    
+            <input type="submit" value="Start Game" class="form-submit-btn js-form-button" /> 
             ${formInput}     
             </form>
         </div>
     `;
 
-    document.querySelector(".container").innerHTML = menu;
+    document.querySelector(".js-container").innerHTML = menu;
 }
 
 
@@ -229,10 +220,11 @@ function renderPuzzle(question, arrOfAnswers) {
         let answer = '';
 
         for (let i = 0; i < arrOfAnswers.length; i++) {
-            answer += `<div class="answers flex-center js-answers js-answers-${i}">${arrOfAnswers[i]}</div>`;
+            answer += `<div class="answers flex-center js-answers js-answers-${i}" data-index="${i}">${arrOfAnswers[i]}</div>`;
         }
      
         let puzzle = `
+        <div class="points js-points">${points} / ${allPuzzle} </div>
         <div class="question flex-center js-question">
                 ${question}
         </div>
@@ -241,15 +233,11 @@ function renderPuzzle(question, arrOfAnswers) {
         </div>
         `;
 
-        document.querySelector(".container").innerHTML = puzzle;
-        // render points
-        document.querySelector(".js-points").classList.add("visible");
+        document.querySelector(".js-container").innerHTML = puzzle;
 }
 
-//TODO ez rossz, ujra kell csinalni es a renderelest is a valaszoknak
 //render answers
 function renderResult(numbOfCorrect, numbOfGuested) {
-    
         if (numbOfGuested === false) {
             document
             .querySelector(`.js-answers-${numbOfCorrect}`)
@@ -268,7 +256,6 @@ function renderResult(numbOfCorrect, numbOfGuested) {
                 .querySelector(`.js-answers-${numbOfGuested}`)
                 .classList.add("wrongAnswer");
             }
-
         }        
 }
 
@@ -278,7 +265,16 @@ function renderPoints(points, allPuzzle) {
     document.querySelector(".js-points").innerHTML = `${points} / ${allPuzzle}`;
 }
 
-
+//TODO build up a popup description  
+function popupDescription() {
+    document.querySelector(".js-popup").innerHTML =
+    `
+    <div class="popup-description">
+    <p class="popup-description-paragraph">Choose a category in which to play the Trivia Quiz.</p>
+    <p class="popup-description-paragraph">Earn the maximum points in each category.</p>
+    </div>  
+    `
+}
 
 /**
  * *-----------------------------------------------------------------------------------------------
@@ -299,7 +295,7 @@ function addEventListenerToMainButton() {
         fetchAPI(API_URL);
         points = 0;
         allPuzzle = 0;
-        renderPoints(points, allPuzzle);
+        
     });
 }
 
@@ -334,7 +330,7 @@ function addEventListenerToAnswersOptions() {
                 event.target.classList.add("markedAnswer");
                 statusOfAnswers = false;
                 clearInterval(countDown);
-                evaluationOfResult(event.target.innerHTML);
+                evaluationOfResult(event.target.dataset.index);
                 };
         });
     }
@@ -344,9 +340,8 @@ function addEventListenerToAnswersOptions() {
 
 /**
  * *-----------------------------------------------------------------------------------------------
- * *render the pages
+ * *call the main functions
  */
-
 
 renderMainMenu(themes);
 addEventListenerToMainButton();
