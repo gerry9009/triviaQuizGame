@@ -38,7 +38,7 @@
     margin-top: 4rem;
   } 
 
-  .form-submit-btn {
+  .form-btn {
     display: block;
     margin: 0 0 2rem;
     padding: 1rem 2rem;
@@ -54,7 +54,7 @@
     text-shadow: 0 0.04rem 0.04rem rgba(255, 255, 255, 0.253);
   }
   
-  .form-submit-btn:hover {
+  .form-btn:hover {
     color: rgb(185, 24, 110);
     background-color: rgb(255, 255, 255);
   }
@@ -161,21 +161,54 @@
 
   }
 
-  .popup-description {
-    width: 75%;
-    max-width: 500px;
-    color: rgb(185, 24, 110); 
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: .8rem;
-    letter-spacing: .1rem;
-    padding: 0;
-    margin-bottom: 1rem;
+  .popup-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(24, 121, 185, 0.4);
+    z-index: 1;
+  }
+
+  .popup {
+    position: absolute;
+    top: calc(40vh - 100px);
+    left: 5vw;
+    width: 90vw;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.95); 
+    outline: 5px solid rgb(185, 24, 110);
+    color: rgb(255, 255, 255);
   }
 
   .popup-description-paragraph {
     margin-bottom: .1rem;
+    letter-spacing: .2rem;
+    font-size: 1rem;
   }
+
+  .popup-btn {
+    cursor: pointer;
+    margin: 2rem 0 2rem;
+    padding: .5rem 2rem;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    text-shadow: 0 0.04rem 0.04rem rgba(255, 255, 255, 0.253);
+  }
+
+  
+  .popup-btn:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(185, 24, 110);
+  }
+
 
   footer {
     position: absolute;
@@ -213,6 +246,11 @@
   }
   
   @media screen and (min-width: 762px) {
+    .popup {
+      width: 762px;
+      left: calc(50vw - 381px);
+    }
+
     .form-description {
       font-size: 1rem;
     }
@@ -264,6 +302,6 @@
     background: rgb(202, 14, 14);
   }
   
-  .visible {
-    visibility: visible;
+  .hidden {
+    visibility: hidden;
   }

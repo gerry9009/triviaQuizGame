@@ -59,8 +59,6 @@ let themes = {
 };
     
 
-
-
 /**
  * *-----------------------------------------------------------------------------------------------
  * *fetch function
@@ -204,7 +202,7 @@ function renderMainMenu(themesObject) {
     let menu = ` 
         <div class="menu-container flex-center"> 
             <form action="#" class="form flex-center js-form">
-            <input type="submit" value="Start Game" class="form-submit-btn js-form-button" /> 
+            <input type="submit" value="Start Game" class="form-btn js-form-button" /> 
             ${formInput}     
             </form>
         </div>
@@ -265,22 +263,17 @@ function renderPoints(points, allPuzzle) {
     document.querySelector(".js-points").innerHTML = `${points} / ${allPuzzle}`;
 }
 
-//TODO build up a popup description  
-function popupDescription() {
-    document.querySelector(".js-popup").innerHTML =
-    `
-    <div class="popup-description">
-    <p class="popup-description-paragraph">Choose a category in which to play the Trivia Quiz.</p>
-    <p class="popup-description-paragraph">Earn the maximum points in each category.</p>
-    </div>  
-    `
-}
-
 /**
  * *-----------------------------------------------------------------------------------------------
  * *add event listeners
  */
 
+//close popup box
+function addEventlistenerToPopupBtn() {
+    document.querySelector(".js-popup-btn").addEventListener("click", ()=> {
+        document.querySelector(".js-popup-container").classList.add("hidden");
+    });
+}
 
 // after onsumbit action in new game button - eventlistener
 function addEventListenerToMainButton() {
@@ -345,3 +338,4 @@ function addEventListenerToAnswersOptions() {
 
 renderMainMenu(themes);
 addEventListenerToMainButton();
+addEventlistenerToPopupBtn();
