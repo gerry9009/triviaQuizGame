@@ -23,7 +23,7 @@ body {
 }
 
 h1 {
-  margin-bottom: 1vh;
+  margin-bottom: .1rem;
 }
 
 .container {
@@ -46,8 +46,8 @@ h1 {
 
 .form-btn {
   display: block;
-  margin: 0 0 2rem;
-  padding: 1rem 2rem;
+  margin: 0 0 1rem;
+  padding: 1rem 1rem;
   cursor: pointer;
   background: var(--color-black);
   color: var(--color-white);
@@ -72,8 +72,8 @@ h1 {
   justify-content: space-between;
   width: 100%;
   max-width: 500px;
-  margin-bottom: .5vh;
-  padding: .4rem .6rem;
+  margin-bottom: .2vh;
+  padding: .2rem 0;
   border-radius: 100px;
   cursor: pointer;
 }
@@ -81,6 +81,20 @@ h1 {
 .form-label:hover,
 .form-label:focus-within {
   background: linear-gradient(to right bottom, var(--color-black-glassy), var(--color-white));
+}
+
+.form-label:hover>.form-name,
+.form-label:hover>.form-point {
+  color: var(--color-maincolor);
+}
+
+.form-input:checked+.form-label {
+  background: var(--color-maincolor);
+}
+
+.form-input:checked+.form-label>.form-name,
+.form-input:checked+.form-label>.form-point {
+  color: var(--color-white);
 }
 
 .form-input {
@@ -106,10 +120,7 @@ h1 {
   font-size: .8rem;
 }
 
-.form-input:checked~.form-name,
-.form-input:checked~.form-point  {
-  color: var(--color-maincolor);
-}
+
 
 .points {
   height: 3vh;
@@ -248,9 +259,16 @@ footer {
     visibility: visible;
   }
 
+  .form-btn {
+    margin: 0 0 2rem;
+    padding: 1rem 2rem;
+  }
+
   .form-label {
-    width: 60%;
+    width: 65%;
     flex-direction: row;
+    margin-bottom: .5vh;
+    padding: .4rem .6rem;
   }
 }
 

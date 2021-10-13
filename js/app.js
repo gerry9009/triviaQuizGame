@@ -153,14 +153,20 @@ function evaluationOfResult(guessed) {
     }
 
     if (allPuzzle == maximumGame) {
+    
         setTimeout(() => {                
             Object.values(themes).forEach(  theme => {
                 if (theme.id === playedTheme.value) {
-                    theme.points >= points ? theme.points : theme.points = points;
+                    if (theme.points >= points) {
+                        renderCompletedQuizPopUp(theme.points, points);    
+                    } else {
+                        renderCompletedQuizPopUp(theme.points, points); 
+                        theme.points = points;
+                    }
                 }
             });
-            renderMainMenu(themes);
-            addEventListenerToMainButton();
+            addEventlistenerToPopupBtn();       
+
         }, 3500);
         
     } else {
@@ -170,7 +176,6 @@ function evaluationOfResult(guessed) {
     }
     
 }
-
 
 
 /**
@@ -192,8 +197,8 @@ function renderMainMenu(themesObject) {
         }
 
         formInput += `     
-                <label class="form-label">
-                    <input type="radio" class="${id} form-input" name="game_theme" value="${id}" ${check}/>   
+                <input type="radio" class="${id} form-input" name="game_theme" value="${id}" id="${id}" ${check}/> 
+                <label class="form-label" for="${id}">              
                     <div class="form-name"> ${name} </div>
                     <div class="form-point"> ${points} / ${maximumGame} </div>
                 </label>  
@@ -265,18 +270,57 @@ function renderPoints(points, allPuzzle) {
     document.querySelector(".js-points").innerHTML = `${points} / ${allPuzzle}`;
 }
 
+
+//render Welcome PopUp box
+function renderWelcomePopUp() {
+    
+    document.querySelector(".js-popup-container").innerHTML = `
+    <div class="popup js-popup">
+        <h2>Welcome in Trivia Quiz</h2>
+        <p class="popup-description-paragraph">Earn the maximum points in each category.</p>
+        <button class="popup-btn js-popup-btn">ok</button>
+    </div>
+    `;
+}
+
+
+//render completed quiz popup box 
+function renderCompletedQuizPopUp(themePoints, newPoints) {
+    let msg, pts;
+    pts =  newPoints;
+    if (themePoints < newPoints) {
+        msg = "New personal record!";   
+    } else {
+        msg = "Personal best: " + themePoints + " pts";  
+    }
+
+    document.querySelector(".js-popup-container").classList.remove("hidden");
+
+    document.querySelector(".js-popup-container").innerHTML = `
+    <div class="popup js-popup">
+        <h2>Quiz complete</h2>
+        <p class="popup-description-paragraph">${msg}</p>
+        <p class="popup-description-paragraph">You earn: ${pts} pts</p>  
+        <button class="popup-btn js-popup-btn">return</button>
+    </div>
+    `;
+
+}
+
 /**
  * *-----------------------------------------------------------------------------------------------
  * *add event listeners
  */
 
-//close popup box
+//close popup box and render the main menu
 function addEventlistenerToPopupBtn() {
+
     document.querySelector(".js-popup-btn").addEventListener("click", ()=> {
+        renderMainMenu(themes);
+        addEventListenerToMainButton();
         document.querySelector(".js-popup-container").classList.add("hidden");
     });
 }
-
 
 
 // after onsumbit action in new game button - eventlistener
@@ -336,15 +380,10 @@ function addEventListenerToAnswersOptions() {
     }
 }
 
-
-
 /**
  * *-----------------------------------------------------------------------------------------------
  * *call the main functions
  */
 
-
-renderMainMenu(themes);
-addEventListenerToMainButton();
+renderWelcomePopUp();
 addEventlistenerToPopupBtn();
-
