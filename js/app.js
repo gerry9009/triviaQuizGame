@@ -1,9 +1,9 @@
 let API_URL;
 let playedTheme;
 
-let randomOrderedPuzzle, puzzle, question, correctAnswer, incorrectAnswers, answerOptions, statusOfAnswers, numberOfCorrectAnswer, numberOfGuestedAnswer;
+let correctAnswer, incorrectAnswers, answerOptions, statusOfAnswers, numberOfCorrectAnswer, numberOfguessedAnswer;
 let points, allPuzzle = 0;
-let maximumGame = 15;
+let maximumGame = 10;
 
 let themes = {
     Food : {
@@ -68,12 +68,12 @@ function fetchAPI(API) {
   fetch(API)
     .then((response) => response.json())
     .then((puzzles) => {
-        randomOrderedPuzzle = Math.floor(Math.random() * 20);
-
-        puzzle = puzzles[randomOrderedPuzzle];
+        let randomOrderedPuzzle = Math.floor(Math.random() * 20);
+        
+        let puzzle = puzzles[randomOrderedPuzzle];
 
         // question of puzzle
-        question = puzzle.question;
+        let question = puzzle.question;
 
         // correct answer of puzzle
         correctAnswer = puzzle.correctAnswer;
@@ -125,29 +125,29 @@ function getPuzzle(question, answerOptions) {
 
 // evaluation of the result
 
-function evaluationOfResult(guested){
+function evaluationOfResult(guessed) {
     //remove counter-slide
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
     
     numberOfCorrectAnswer = answerOptions.findIndex(
         (element) => element === correctAnswer
     );
-    guested === false ? 
-    numberOfGuestedAnswer = guested :
-    numberOfGuestedAnswer = parseInt(guested);
+    guessed === false ? 
+    numberOfguessedAnswer = guessed :
+    numberOfguessedAnswer = parseInt(guessed);
 
     allPuzzle += 1;
 
-    if (numberOfCorrectAnswer === numberOfGuestedAnswer) {
+    if (numberOfCorrectAnswer === numberOfguessedAnswer) {
         points += 1;
     };
 
-    if (guested === false) {
-        renderResult(numberOfCorrectAnswer, numberOfGuestedAnswer);
+    if (guessed === false) {
+        renderResult(numberOfCorrectAnswer, numberOfguessedAnswer);
         renderPoints(points, allPuzzle);    
     } else {
         setTimeout(() => {
-            renderResult(numberOfCorrectAnswer, numberOfGuestedAnswer);
+            renderResult(numberOfCorrectAnswer, numberOfguessedAnswer);
             renderPoints(points, allPuzzle);
         }, 2000);
     }
@@ -184,25 +184,27 @@ function renderMainMenu(themesObject) {
     let objectKeys = Object.keys(themesObject);
     
     for (let i = 0; i < objectKeys.length; i++) {
-        let key = objectKeys[i];
         let check = "";
+        let {id, name, points} = themesObject[objectKeys[i]];
+
         if (i === 0) {
             check = "checked";
         }
+
         formInput += `     
                 <label class="form-label">
-                    <input type="radio" class="${themesObject[`${key}`]['id']} form-input" name="game_theme" value="${themesObject[`${key}`]['id']}" ${check}/>
-                    <div class="form-name"> ${themesObject[`${key}`]['name']} </div>
-                    <div class="form-point"> ${themesObject[`${key}`]['points']} / ${maximumGame} </div>
-                </label>
-                
-            `;   
+                    <input type="radio" class="${id} form-input" name="game_theme" value="${id}" ${check}/>   
+                    <div class="form-name"> ${name} </div>
+                    <div class="form-point"> ${points} / ${maximumGame} </div>
+                </label>  
+            `;
+
     }
 
     let menu = ` 
-        <div class="menu-container flex-center"> 
+        <div class="flex-center"> 
             <form action="#" class="form flex-center js-form">
-            <input type="submit" value="Start Game" class="form-btn js-form-button" /> 
+            <input type="submit" value="Start Game" class="form-btn js-form-btn" /> 
             ${formInput}     
             </form>
         </div>
@@ -235,24 +237,24 @@ function renderPuzzle(question, arrOfAnswers) {
 }
 
 //render answers
-function renderResult(numbOfCorrect, numbOfGuested) {
-        if (numbOfGuested === false) {
+function renderResult(numOfCorrect, numOfGuessed) {
+        if (numOfGuessed === false) {
             document
-            .querySelector(`.js-answers-${numbOfCorrect}`)
-            .classList.add("correctAnswer");
-        } else {
-            if (numbOfCorrect === numbOfGuested) {
-                document
-                .querySelector(`.js-answers-${numbOfCorrect}`)
+                .querySelector(`.js-answers-${numOfCorrect}`)
                 .classList.add("correctAnswer");
+        } else {
+            if (numOfCorrect === numOfGuessed) {
+                document
+                    .querySelector(`.js-answers-${numOfCorrect}`)
+                    .classList.add("correctAnswer");
             } else {
                 document
-                .querySelector(`.js-answers-${numbOfCorrect}`)
-                .classList.add("correctAnswer");
+                    .querySelector(`.js-answers-${numOfCorrect}`)
+                    .classList.add("correctAnswer");
 
                 document
-                .querySelector(`.js-answers-${numbOfGuested}`)
-                .classList.add("wrongAnswer");
+                    .querySelector(`.js-answers-${numOfGuessed}`)
+                    .classList.add("wrongAnswer");
             }
         }        
 }
@@ -275,13 +277,18 @@ function addEventlistenerToPopupBtn() {
     });
 }
 
+
+
 // after onsumbit action in new game button - eventlistener
 function addEventListenerToMainButton() {
     document.querySelector(".js-form").addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
+        // add disable attributum to main button
+        document.querySelector('.js-form-btn').disabled = true;
+
         // get value of the selected theme
-        playedTheme = document.querySelector('input[name="game_theme"]:checked');
+        playedTheme = document.querySelector('input[name=game_theme]:checked');
 
         API_URL = `https://api.trivia.willfry.co.uk/questions?categories=${playedTheme.value}&limit=20`;
  
@@ -336,6 +343,8 @@ function addEventListenerToAnswersOptions() {
  * *call the main functions
  */
 
+
 renderMainMenu(themes);
 addEventListenerToMainButton();
 addEventlistenerToPopupBtn();
+
