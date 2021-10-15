@@ -1,63 +1,84 @@
 let API_URL;
-let playedTheme;
 
-let correctAnswer, incorrectAnswers, answerOptions, statusOfAnswers, numberOfCorrectAnswer, numberOfguessedAnswer;
-let points, allPuzzle = 0;
+let themes, playedTheme, correctAnswer, answerOptions, statusOfAnswers;
+let points = 0, allPuzzle = 0;
 let maximumGame = 10;
 
-let themes = {
-    Food : {
-        id : "food_and_drink",
-        name: "Food",
-        points: 0
-    },
-    Geography : {
-        id : "geography",
-        name : "Geography",
-        points: 0
-    },  
-    General : {
-        id : "general_knowledge",
-        name : "General Knowledge",
-        points: 0
-    },
-    History : {
-        id : "history",
-        name : "History",
-        points: 0
-    },
-    Art : {
-        id : "literature",
-        name : "Art and Literature",
-        points: 0
-    },
-    Movies : {
-        id : "movies",
-        name : "Movies",
-        points: 0
-    },
-    Music : {
-        id : "music",
-        name : "Music",
-        points: 0
-    },
-    Science : {
-        id : "science",
-        name : "Science",
-        points: 0
-    },
-    Society : {
-        id : "society_and_culture",
-        name : "Society and Culture",
-        points: 0
-    },
-    Sport : {
-        id : "sport_and_leisure",
-        name : "Sport and Leisure",
-        points: 0
+/**
+ * *-----------------------------------------------------------------------------------------------
+ * *localStorage management
+ */
+
+//check the LocalStorage
+function checkLocalStorage() {
+    if (localStorage.themes === undefined) {
+        themes = {
+            Food : {
+                id : "food_and_drink",
+                name: "Food",
+                points: 0
+            },
+            Geography : {
+                id : "geography",
+                name : "Geography",
+                points: 0
+            },  
+            General : {
+                id : "general_knowledge",
+                name : "General Knowledge",
+                points: 0
+            },
+            History : {
+                id : "history",
+                name : "History",
+                points: 0
+            },
+            Art : {
+                id : "literature",
+                name : "Art and Literature",
+                points: 0
+            },
+            Movies : {
+                id : "movies",
+                name : "Movies",
+                points: 0
+            },
+            Music : {
+                id : "music",
+                name : "Music",
+                points: 0
+            },
+            Science : {
+                id : "science",
+                name : "Science",
+                points: 0
+            },
+            Society : {
+                id : "society_and_culture",
+                name : "Society and Culture",
+                points: 0
+            },
+            Sport : {
+                id : "sport_and_leisure",
+                name : "Sport and Leisure",
+                points: 0
+            }
+        };
+        localStorage.setItem("themes", JSON.stringify(themes));
     }
-};
-    
+    themes = JSON.parse(localStorage.getItem("themes"));
+}
+
+//save to LocalStorage
+function saveLocalStorage() {
+    localStorage.setItem("themes", JSON.stringify(themes));
+}
+
+//clear the LocalStorage
+function clearLocalStorage() {
+    localStorage.clear();
+}
+
 
 /**
  * *-----------------------------------------------------------------------------------------------
@@ -78,6 +99,7 @@ function fetchAPI(API) {
         // correct answer of puzzle
         correctAnswer = puzzle.correctAnswer;
 
+        let incorrectAnswers;
         // incorrect answers of puzzle
         puzzle.incorrectAnswers.length === 3
             ? (incorrectAnswers = puzzle.incorrectAnswers)
@@ -126,12 +148,14 @@ function getPuzzle(question, answerOptions) {
 // evaluation of the result
 
 function evaluationOfResult(guessed) {
-    //remove counter-slide
+    //remove counter-slide animation
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
-    
-    numberOfCorrectAnswer = answerOptions.findIndex(
+
+    let numberOfguessedAnswer;
+    let numberOfCorrectAnswer = answerOptions.findIndex(
         (element) => element === correctAnswer
     );
+    
     guessed === false ? 
     numberOfguessedAnswer = guessed :
     numberOfguessedAnswer = parseInt(guessed);
@@ -162,6 +186,8 @@ function evaluationOfResult(guessed) {
                     } else {
                         renderCompletedQuizPopUp(theme.points, points); 
                         theme.points = points;
+                        // save themes object to the local storage       
+                        saveLocalStorage();
                     }
                 }
             });
@@ -203,7 +229,6 @@ function renderMainMenu(themesObject) {
                     <div class="form-point"> ${points} / ${maximumGame} </div>
                 </label>  
             `;
-
     }
 
     let menu = ` 
@@ -213,6 +238,7 @@ function renderMainMenu(themesObject) {
             ${formInput}     
             </form>
         </div>
+        <button class="clear-button js-clear-button">X</button>
     `;
 
     document.querySelector(".js-container").innerHTML = menu;
@@ -304,7 +330,19 @@ function renderCompletedQuizPopUp(themePoints, newPoints) {
         <button class="popup-btn js-popup-btn">return</button>
     </div>
     `;
+}
 
+//render LocalStorage clear popup box -----------
+function renderClearPopup() {
+    document.querySelector(".js-popup-container").classList.remove("hidden");
+    document.querySelector(".js-popup-container").innerHTML = `
+    <div class="popup js-popup">
+        <h2>Delete results</h2>
+        <p class="popup-description-paragraph">Do you want to delete your results in categories?</p>
+        <button class="popup-btn popup-btn-yes js-popup-btn-yes">Yes</button>
+        <button class="popup-btn js-popup-btn">No</button>
+    </div>
+    `;
 }
 
 /**
@@ -318,6 +356,7 @@ function addEventlistenerToPopupBtn() {
     document.querySelector(".js-popup-btn").addEventListener("click", ()=> {
         renderMainMenu(themes);
         addEventListenerToMainButton();
+        addEventListenerToClearButton();
         document.querySelector(".js-popup-container").classList.add("hidden");
     });
 }
@@ -367,7 +406,6 @@ function addEventListenerToAnswersOptions() {
         }, 1000
     );
 
-
     for (let i = 0; i < boxes.length; i++) {
         boxes[i].addEventListener("click", (event) => {
             if (statusOfAnswers) {
@@ -380,10 +418,34 @@ function addEventListenerToAnswersOptions() {
     }
 }
 
+
+//add evantlistener to the LocalStorage clear button in the main menu
+function addEventListenerToClearButton() {
+    document.querySelector(".js-clear-button").addEventListener("click", ()=> {
+        renderClearPopup();
+        addEventListenerToClearPopupBoxButtons();
+    })
+}
+
+//add evantlistener to buttons in the LocalStorage clear popup box
+function addEventListenerToClearPopupBoxButtons() {
+    addEventlistenerToPopupBtn();
+    document.querySelector(".js-popup-btn-yes").addEventListener("click", ()=> {
+        clearLocalStorage();
+        checkLocalStorage();
+        renderMainMenu(themes);
+        addEventListenerToMainButton();
+        addEventListenerToClearButton();
+        document.querySelector(".js-popup-container").classList.add("hidden");
+    })
+}
+
 /**
  * *-----------------------------------------------------------------------------------------------
  * *call the main functions
  */
-
-renderWelcomePopUp();
+ renderWelcomePopUp();
 addEventlistenerToPopupBtn();
+// get themes from the localStorage 
+checkLocalStorage();
+
