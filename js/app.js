@@ -1,8 +1,8 @@
-let API_URL;
+var API_URL;
 
-let themes, playedTheme, correctAnswer, answerOptions, statusOfAnswers;
-let points = 0, allPuzzle = 0;
-let maximumGame = 10;
+var themes, playedTheme, correctAnswer, answerOptions, statusOfAnswers;
+var points = 0, allPuzzle = 0;
+var maximumGame = 10;
 
 /**
  * *-----------------------------------------------------------------------------------------------
@@ -132,10 +132,12 @@ function randomOrderedLengthArr(arr, num) {
     }
 
     for (let i = 0; i < num; i++) {
-        result.push(...arr.splice([Math.floor(Math.random() * arr.length)], 1));
+        let randomNumber = Math.floor(Math.random() * arr.length);
+        result.push(...arr.splice([randomNumber], 1));
     }
 
     return result;
+    
 }
 
 // get new puzzle 
@@ -151,7 +153,7 @@ function evaluationOfResult(guessed) {
     //remove counter-slide animation
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
 
-    let numberOfguessedAnswer;
+    var numberOfguessedAnswer;
     let numberOfCorrectAnswer = answerOptions.findIndex(
         (element) => element === correctAnswer
     );
@@ -238,7 +240,7 @@ function renderMainMenu(themesObject) {
             ${formInput}     
             </form>
         </div>
-        <button class="clear-button js-clear-button">X</button>
+        <button class="clear-button js-clear-button"></button>
     `;
 
     document.querySelector(".js-container").innerHTML = menu;

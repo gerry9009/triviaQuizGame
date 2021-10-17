@@ -164,18 +164,52 @@ h1 {
   right: .6rem;
   top: .6rem;
   cursor: pointer;
-  border-radius: 100%;
-  width: 1.5rem;
-  height: 1.5rem;
-  border: none;
+  border-radius: 100px;
+  height: 20px;
+  width: 128px;
+  border: 1px solid var(--color-black);
   font-size: .6rem;
-  background: var(--color-black);
-  color: var(--color-white);
+  font-weight: 700;
+  animation-name: clearbutton;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+  animation-delay: 2.5s;
 }
 
-.clear-button:hover {
-  color: var(--color-maincolor);
+.clear-button::after{
+  content: "Clear your result here"; 
+  animation-name: changename;
+  animation-duration: 2.5s;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease;
+  animation-delay: 2.5s;
 }
+
+@keyframes clearbutton {
+  from {
+    width: 128px;
+    background: var(--color-white);
+    color: var(--color-black);  
+  }
+  to {
+    border-radius: 100%;
+    width: 22px;
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+}
+
+@keyframes changename {
+  from {
+    content: "Clear your result here";   
+  }
+  to {
+    content: "X";
+  }
+}
+
 
 .counter {
   position: absolute;
