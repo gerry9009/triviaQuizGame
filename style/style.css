@@ -23,7 +23,7 @@ body {
 }
 
 h1 {
-  margin-bottom: .1rem;
+  margin-top: 2.2rem;
 }
 
 .container {
@@ -41,7 +41,7 @@ h1 {
 
 .form {
   width: 100%;
-  margin-top: 4rem;
+  margin-top: 1rem;
 } 
 
 .form-btn {
@@ -161,55 +161,43 @@ h1 {
 .clear-button {
   position: absolute;
   z-index: 1;
-  right: .6rem;
-  top: .6rem;
+  right: .8rem;
+  top: .8rem;
   cursor: pointer;
-  border-radius: 100px;
-  height: 20px;
-  width: 128px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
   border: 1px solid var(--color-black);
   font-size: .6rem;
   font-weight: 700;
-  animation-name: clearbutton;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
-  animation-delay: 2.5s;
+  background: var(--color-black);
+  color: var(--color-white);
 }
 
-.clear-button::after{
-  content: "Clear your result here"; 
-  animation-name: changename;
-  animation-duration: 2.5s;
-  animation-direction: alternate;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease;
-  animation-delay: 2.5s;
+.clear-button-hover {
+  position: absolute;
+  z-index: 1;
+  right: 2.8rem;
+  top: .8rem;
+  opacity: 0;
+  transition: all .2s ease-in-out;
+  padding: 2px 5px;
+  background: var(--color-white);
+  color: var(--color-maincolor);
+  font-size: .8rem;
+  border: 1px solid var(--color-maincolor);
+  border-radius: 25px;
 }
 
-@keyframes clearbutton {
-  from {
-    width: 128px;
-    background: var(--color-white);
-    color: var(--color-black);  
-  }
-  to {
-    border-radius: 100%;
-    width: 22px;
-    background: var(--color-black);
-    color: var(--color-white);
-  }
+.clear-button:hover {
+  background: var(--color-maincolor);
+  border: 1px solid var(--color-maincolor);
 }
 
-@keyframes changename {
-  from {
-    content: "Clear your result here";   
-  }
-  to {
-    content: "X";
-  }
+.clear-button:hover + .clear-button-hover {
+  opacity: .9;
+  transition: all .7s ease-in-out; 
 }
-
 
 .counter {
   position: absolute;
@@ -225,8 +213,28 @@ h1 {
 .counter-slide-animation {
     animation: slidedown 21s;
     animation-timing-function: linear;
-
+    -webkit-animation: slidedown 21s;
+    -webkit-animation-timing-function: linear;
 }
+
+@keyframes slidedown {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
+}
+
+@-webkit-keyframes slidedown {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100%;
+  }
+}
+
 
 .popup-container {
   position: absolute;
@@ -294,20 +302,26 @@ footer {
   color: var(--color-maincolor);
 }
 
-@keyframes slidedown {
-    from {
-      top: 0;
-    }
-    to {
-      top: 100%;
-    }
-}
 
 
 @media screen and (min-width: 370px) {
   footer {
     visibility: visible;
   }
+
+  h1 {
+    margin-top: 3rem;
+    font-size: 2.8rem;
+  }
+
+  .clear-button-hover {
+    padding: 2px 15px;
+    font-size: 1rem;
+  }
+  
+  .form {
+    margin-top: 4rem;
+  } 
 
   .form-btn {
     margin: 0 0 2rem;
@@ -328,6 +342,17 @@ footer {
 }
 
 @media screen and (min-width: 762px) {
+  h1 {
+    margin-top: 5rem;
+    font-size: 3.2rem;
+  }
+  
+
+  .form {
+    margin-top: 6rem;
+  } 
+
+
   .popup {
     width: 762px;
     left: calc(50vw - 381px);

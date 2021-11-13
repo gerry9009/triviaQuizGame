@@ -1,8 +1,8 @@
-var API_URL;
+let API_URL;
 
-var themes, playedTheme, correctAnswer, answerOptions, statusOfAnswers;
-var points = 0, allPuzzle = 0;
-var maximumGame = 10;
+let themes, playedTheme, correctAnswer, answerOptions, statusOfAnswers;
+let points = 0, allPuzzle = 0;
+let maximumGame = 10;
 
 /**
  * *-----------------------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ function evaluationOfResult(guessed) {
     //remove counter-slide animation
     document.querySelector('.js-couter').classList.remove('counter-slide-animation');
 
-    var numberOfguessedAnswer;
+    let numberOfguessedAnswer;
     let numberOfCorrectAnswer = answerOptions.findIndex(
         (element) => element === correctAnswer
     );
@@ -240,7 +240,8 @@ function renderMainMenu(themesObject) {
             ${formInput}     
             </form>
         </div>
-        <button class="clear-button js-clear-button"></button>
+        <button class="clear-button js-clear-button">X</button>
+        <div class="clear-button-hover">Clear Result</div>
     `;
 
     document.querySelector(".js-container").innerHTML = menu;
@@ -390,7 +391,7 @@ function addEventListenerToAnswersOptions() {
     const boxes = document.querySelectorAll(".js-answers");
     
     // start-counter
-    var seconds = 20;
+    let seconds = 20;
      
     document.querySelector('.js-couter').classList.add('counter-slide-animation');
     const countDown = setInterval( () => {
