@@ -364,7 +364,7 @@ function addEventListenerToMainButton() {
     // get value of the selected theme
     playedTheme = document.querySelector("input[name=game_theme]:checked");
 
-    API_URL = `https://the-trivia-api.com/questions?categories=${playedTheme.value}&limit=20`;
+    API_URL = `https://the-trivia-api.com/api/questions?categories=${playedTheme.value}&limit=20`;
 
     fetchAPI(API_URL);
     points = 0;

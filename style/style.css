@@ -1,9 +1,9 @@
 :root {
   --color-background: rgb(194, 194, 194);
-  --color-black: rgb(0,0,0);
-  --color-white: rgb(255,255,255);
+  --color-black: rgb(0, 0, 0);
+  --color-white: rgb(255, 255, 255);
   --color-black-glassy: rgba(255, 255, 255, 0.253);
-  --color-gray:rgb(88, 88, 88);
+  --color-gray: rgb(88, 88, 88);
   --color-maincolor: rgb(185, 24, 110);
   --color-blue-glass: rgba(24, 121, 185, 0.4);
 }
@@ -11,7 +11,7 @@
 * {
   text-align: center;
   box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 body {
@@ -42,7 +42,7 @@ h1 {
 .form {
   width: 100%;
   margin-top: 1rem;
-} 
+}
 
 .form-btn {
   display: block;
@@ -53,10 +53,12 @@ h1 {
   color: var(--color-white);
   border: none;
   border-radius: 0.4rem;
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
   text-shadow: 0 0.04rem 0.04rem var(--color-black-glassy);
 }
 
@@ -72,28 +74,34 @@ h1 {
   justify-content: space-between;
   width: 100%;
   max-width: 500px;
-  margin-bottom: .2vh;
-  padding: .2rem 0;
+  margin-bottom: 0.2vh;
+  padding: 0.2rem 0;
   border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
   cursor: pointer;
 }
 
 .form-label:hover,
 .form-label:focus-within {
-  background: linear-gradient(to right bottom, var(--color-black-glassy), var(--color-white));
+  background: linear-gradient(
+    to right bottom,
+    var(--color-black-glassy),
+    var(--color-white)
+  );
 }
 
-.form-label:hover>.form-name,
-.form-label:hover>.form-point {
+.form-label:hover > .form-name,
+.form-label:hover > .form-point {
   color: var(--color-maincolor);
 }
 
-.form-input:checked+.form-label {
+.form-input:checked + .form-label {
   background: var(--color-maincolor);
 }
 
-.form-input:checked+.form-label>.form-name,
-.form-input:checked+.form-label>.form-point {
+.form-input:checked + .form-label > .form-name,
+.form-input:checked + .form-label > .form-point {
   color: var(--color-white);
 }
 
@@ -111,15 +119,14 @@ h1 {
   color: var(--color-gray);
   text-transform: uppercase;
   font-weight: 700;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
 
 .form-point {
   color: var(--color-gray);
   font-weight: 700;
-  font-size: .8rem;
+  font-size: 0.8rem;
 }
-
 
 .points {
   height: 3vh;
@@ -147,28 +154,33 @@ h1 {
 
 .answers {
   min-height: 50px;
-  padding: .8rem;
+  padding: 0.8rem;
   border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
   cursor: pointer;
   background-color: var(--color-gray);
   color: var(--color-white);
+  border: 3px solid var(--color-gray);
 }
 
 .answers:hover {
-  outline: 3px solid var(--color-white);
+  border: 3px solid var(--color-white);
 }
 
 .clear-button {
   position: absolute;
   z-index: 1;
-  right: .8rem;
-  top: .8rem;
+  right: 0.8rem;
+  top: 0.8rem;
   cursor: pointer;
   border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
   width: 25px;
   height: 25px;
   border: 1px solid var(--color-black);
-  font-size: .6rem;
+  font-size: 0.6rem;
   font-weight: 700;
   background: var(--color-black);
   color: var(--color-white);
@@ -178,15 +190,17 @@ h1 {
   position: absolute;
   z-index: 1;
   right: 2.8rem;
-  top: .8rem;
+  top: 0.8rem;
   opacity: 0;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   padding: 2px 5px;
   background: var(--color-white);
   color: var(--color-maincolor);
-  font-size: .8rem;
+  font-size: 0.8rem;
   border: 1px solid var(--color-maincolor);
   border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
 }
 
 .clear-button:hover {
@@ -195,8 +209,8 @@ h1 {
 }
 
 .clear-button:hover + .clear-button-hover {
-  opacity: .9;
-  transition: all .7s ease-in-out; 
+  opacity: 0.9;
+  transition: all 0.7s ease-in-out;
 }
 
 .counter {
@@ -205,16 +219,16 @@ h1 {
   left: 0;
   top: 0;
   bottom: 0;
-  width: .8vw;
+  width: 0.8vw;
   min-width: 6px;
   background: var(--color-maincolor);
 }
 
 .counter-slide-animation {
-    animation: slidedown 21s;
-    animation-timing-function: linear;
-    -webkit-animation: slidedown 21s;
-    -webkit-animation-timing-function: linear;
+  animation: slidedown 21s;
+  animation-timing-function: linear;
+  -webkit-animation: slidedown 21s;
+  -webkit-animation-timing-function: linear;
 }
 
 @keyframes slidedown {
@@ -235,7 +249,6 @@ h1 {
   }
 }
 
-
 .popup-container {
   position: absolute;
   top: 0;
@@ -251,29 +264,31 @@ h1 {
   top: calc(40vh - 100px);
   left: 5vw;
   width: 90vw;
-  background-color: var(--color-black); 
+  background-color: var(--color-black);
   outline: 5px solid var(--color-maincolor);
   color: var(--color-white);
 }
 
 .popup-description-paragraph {
-  margin-bottom: .1rem;
-  letter-spacing: .2rem;
+  margin-bottom: 0.1rem;
+  letter-spacing: 0.2rem;
   font-size: 1rem;
 }
 
 .popup-btn {
   cursor: pointer;
   margin: 2rem 0 2rem;
-  padding: .5rem 2rem;
+  padding: 0.5rem 2rem;
   background: var(--color-white);
   color: var(--color-black);
   border: none;
   border-radius: 0.4rem;
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
   text-shadow: 0 0.04rem 0.04rem var(--color-black-glassy);
 }
 
@@ -302,8 +317,6 @@ footer {
   color: var(--color-maincolor);
 }
 
-
-
 @media screen and (min-width: 370px) {
   footer {
     visibility: visible;
@@ -318,10 +331,10 @@ footer {
     padding: 2px 15px;
     font-size: 1rem;
   }
-  
+
   .form {
     margin-top: 4rem;
-  } 
+  }
 
   .form-btn {
     margin: 0 0 2rem;
@@ -331,14 +344,13 @@ footer {
   .form-label {
     width: 65%;
     flex-direction: row;
-    margin-bottom: .5vh;
-    padding: .4rem .6rem;
+    margin-bottom: 0.5vh;
+    padding: 0.4rem 0.6rem;
   }
 
   .popup-btn-yes {
     margin-right: 3rem;
   }
-
 }
 
 @media screen and (min-width: 762px) {
@@ -346,12 +358,10 @@ footer {
     margin-top: 5rem;
     font-size: 3.2rem;
   }
-  
 
   .form {
     margin-top: 6rem;
-  } 
-
+  }
 
   .popup {
     width: 762px;
@@ -363,13 +373,13 @@ footer {
   }
 
   .form-name {
-    letter-spacing: .3rem;
+    letter-spacing: 0.3rem;
     font-weight: 900;
     font-size: 1rem;
   }
 
   .form-point {
-    letter-spacing: .3rem;
+    letter-spacing: 0.3rem;
     font-weight: 900;
     font-size: 1rem;
   }
@@ -395,22 +405,23 @@ footer {
   }
 }
 
-
-
 /*
 This classes added with javascript
 */
 
 .markedAnswer {
   background: rgb(247, 162, 5);
+  border: 3px solid rgb(247, 162, 5);
 }
 
 .correctAnswer {
   background: rgb(17, 161, 17);
+  border: 3px solid rgb(17, 161, 17);
 }
 
-.wrongAnswer { 
+.wrongAnswer {
   background: rgb(202, 14, 14);
+  border: 3px solid rgb(202, 14, 14);
 }
 
 .hidden {
