@@ -86,7 +86,10 @@ function clearLocalStorage() {
  */
 
 function fetchAPI(API) {
-  fetch(API)
+  fetch(API, {
+    method: "GET",
+    mode: "cors",
+  })
     .then((response) => response.json())
     .then((puzzles) => {
       let randomOrderedPuzzle = Math.floor(Math.random() * 20);
