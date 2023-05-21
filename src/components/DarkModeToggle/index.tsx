@@ -1,11 +1,14 @@
-type Props = {
-  darkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-};
+//TODO: Context API
+import { useContext } from "react";
+import { DarkModeContext } from "../../context/DarkModeContext";
 
-const DarkModeToggle = ({ darkMode, setDarkMode }: Props) => {
+const DarkModeToggle = () => {
+  const { darkMode, setDarkMode } = useContext(DarkModeContext) || {};
+
   const handleDarkMode = () => {
-    setDarkMode((darkMode) => !darkMode);
+    if (setDarkMode) {
+      setDarkMode((darkMode: boolean) => !darkMode);
+    }
   };
 
   return (

@@ -1,10 +1,13 @@
-type Props = {
-  setOpenWindow: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useContext } from "react";
+import { GameContext } from "../../context/GameContext";
 
-const Welcome = ({ setOpenWindow }: Props) => {
+const Welcome = () => {
+  const { setOpenWindow } = useContext(GameContext) || {};
+
   const handleButton = () => {
-    setOpenWindow(false);
+    if (setOpenWindow) {
+      setOpenWindow(false);
+    }
   };
 
   //bg-gray-100 text-slate-950 dark:bg-slate-950 dark:text-gray-100
