@@ -17,10 +17,7 @@ const Welcome = () => {
         Welcome in the Trivia Quiz
       </h1>
       <p className="py-10 text-2xl">Earn the maximum points in each category</p>
-      <button
-        onClick={handleButton}
-        className="dark:bg-pink-500 bg-pink-700 duration-200 hover:dark:bg-pink-700 hover:bg-pink-500 py-2 px-8 rounded-lg text-gray-100 font-bold"
-      >
+      <button onClick={handleButton} className="button">
         START
       </button>
     </div>

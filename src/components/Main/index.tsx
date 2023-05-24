@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { GameContext } from "../../context/GameContext";
 import { v4 as uuidv4 } from "uuid";
+import { Link } from "react-router-dom";
 
 function Main() {
   const { categories, fetchAPI } = useContext(GameContext) || {};
@@ -25,10 +26,10 @@ function Main() {
           return (
             <button
               key={uuidv4()}
-              className="text-gray-100 py-2 px-8 my-1 dark:bg-pink-500 bg-pink-700 duration-200 rounded-lg hover:dark:bg-pink-700 hover:bg-pink-500 font-bold"
+              className="button my-1"
               onClick={handleClick}
             >
-              {category}
+              <Link to="/game">{category}</Link>
             </button>
           );
         })}
