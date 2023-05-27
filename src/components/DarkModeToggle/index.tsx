@@ -1,4 +1,3 @@
-//TODO: Context API
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
 
@@ -12,7 +11,7 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <div className="w-10 h-6 absolute top-2 right-3">
+    <div className="w-10 h-6 absolute top-2 left-3">
       <input
         type="checkbox"
         id="toggle"

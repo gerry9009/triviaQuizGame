@@ -19,7 +19,9 @@ function Main() {
 
   return (
     <div className="flex flex-col  h-5/6">
-      <h1 className="text-5xl">Trivia Quiz</h1>
+      <h1 className="text-5xl dark:text-pink-500 text-pink-700 font-bold">
+        Trivia Quiz
+      </h1>
       <div className="flex flex-col justify-center h-full">
         {listOfCategories.map((category) => {
           return (
