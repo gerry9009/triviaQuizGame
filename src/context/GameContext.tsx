@@ -119,6 +119,7 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     setTimeout(() => {
       // send response to the user
       setResponseUser(true);
+
       setPlayedGame((current) => current + 1);
       if (value === correctAnswer) {
         setUserPoints((current) => current + 1);

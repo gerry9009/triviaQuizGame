@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Layout from "../../components/Layout";
 import { GameContext } from "../../context/GameContext";
 import Welcome from "../../components/Welcome";
