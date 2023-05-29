@@ -12,7 +12,6 @@ interface GameContextType {
   playingAnswers: string[];
   correctAnswer: string;
   gameStart: (value: string) => void;
-  setSettledCategory: React.Dispatch<React.SetStateAction<string>>;
   gamePlay: (value: string) => void;
   responseUser: boolean;
   clickedIndex: number | null;
@@ -20,13 +19,15 @@ interface GameContextType {
   disabledBtns: boolean;
   setDisabledBtns: React.Dispatch<React.SetStateAction<boolean>>;
   userPoints: number;
-  playedGame: number;
+  userPlayedGame: number;
+  userCorrectAnswer: number;
   settingData: (
     id: string,
     question: string,
     correctAnswer: string,
     incorrectAnswers: string[]
   ) => void;
+  settledCategory: string;
 }
 
 interface Categories {
@@ -65,7 +66,8 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
 
   // user points
   const [userPoints, setUserPoints] = useState<number>(0);
-  const [playedGame, setPlayedGame] = useState<number>(0);
+  const [userCorrectAnswer, setUserCorrectAnswer] = useState<number>(0);
+  const [userPlayedGame, setUserPlayedGame] = useState<number>(0);
 
   // Fetch API to get the list of the categories
   useEffect(() => {
@@ -97,7 +99,8 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     // clear the list of the played id
     setListOfPlayedPuzzles([]);
     setUserPoints(0);
-    setPlayedGame(0);
+    setUserCorrectAnswer(0);
+    setUserPlayedGame(0);
 
     // settled the playing category
     setSettledCategory(value);
@@ -120,9 +123,12 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
       // send response to the user
       setResponseUser(true);
 
-      setPlayedGame((current) => current + 1);
+      setUserPlayedGame((current) => current + 1);
       if (value === correctAnswer) {
-        setUserPoints((current) => current + 1);
+        setUserPoints((current) => current + 10);
+        setUserCorrectAnswer((current) => current + 1);
+      } else if (value !== correctAnswer && userPoints > 0) {
+        setUserPoints((current) => current - 10);
       }
     }, 1000);
 
@@ -180,16 +186,18 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     playingAnswers,
     correctAnswer,
     gameStart,
-    setSettledCategory,
     gamePlay,
     responseUser,
     clickedIndex,
     setClickedIndex,
     disabledBtns,
     setDisabledBtns,
+    //TODO: this should be send to the EndGame page
     userPoints,
-    playedGame,
+    userPlayedGame,
+    userCorrectAnswer,
     settingData,
+    settledCategory,
   };
 
   return (

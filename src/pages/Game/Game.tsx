@@ -15,7 +15,7 @@ const Game = () => {
     setClickedIndex,
     setDisabledBtns,
     userPoints,
-    playedGame,
+    userPlayedGame,
     settingData,
   } = useContext(GameContext) || {};
 
@@ -90,11 +90,11 @@ const Game = () => {
         } fixed top-0 left-0 w-full h-full  bg-gray-900/95 z-10 text-white flex flex-col justify-center items-center text-4xl`}
       >
         <h2 className="text-5xl mb-20 font-bold text-center">
-          Do you want to leave your game?
+          Want to stop your game with the current result?
         </h2>
         <div className="mt-20  flex flex-row w-full h-1/5 sm:w-4/5 md:w-3/5 max-w-[800px] justify-around items-center flex-wrap gap-x-20 ">
           <Link
-            to="/"
+            to="/finished"
             className="w-5/12 max-w-[175px] min-w-[125px] text-center button"
           >
             <button onClick={handleExitButton}>Yes</button>
@@ -114,7 +114,7 @@ const Game = () => {
     return (
       <div className="w-4/5">
         <h2 className="text-2xl text-center">
-          {userPoints} Point(s) / {playedGame} Game(s)
+          {userPoints} Point(s) / {userPlayedGame} Game(s)
         </h2>
         <h3 className="text-3xl font-bold mt-5">{playingQuestion}</h3>
         <div className="flex flex-wrap justify-between my-10  w-full">
