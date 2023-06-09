@@ -17,6 +17,7 @@ const Game = () => {
     userPoints,
     userPlayedGame,
     settingData,
+    setLocalStorageData,
   } = useContext(GameContext) || {};
 
   const [isVisible, setIsVisible] = useState(false);
@@ -41,6 +42,10 @@ const Game = () => {
   };
 
   const handleExitButton = () => {
+    console.log("clickssss");
+    if (setLocalStorageData) {
+      setLocalStorageData();
+    }
     // set question data to default
     if (settingData) {
       settingData("", "", "", []);
