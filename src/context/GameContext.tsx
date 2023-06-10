@@ -30,6 +30,7 @@ interface GameContextType {
   settledCategory: string;
   setLocalStorageData: () => void;
   clearLocalStorageData: () => void;
+  userData: object | null;
 }
 
 interface Categories {
@@ -74,13 +75,11 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
   // localstorage data
   const [userData, setUserData] = useState<object | null>(null);
 
-  const getLocalStorageData = () => {
-    const data = localStorage.getItem("triviaData");
+  const initializeUserData = () => {
+    const myNewData: { [key: string]: object } = {};
 
-    if (data) {
-      setUserData(JSON.parse(data));
-    } else {
-      const objectStructure = {
+    for (const category in categories) {
+      myNewData[category] = {
         gameStats: {
           allPlayedGame: 0,
           allCorrectAnswer: 0,
@@ -92,27 +91,31 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
           longestGame: 0,
           shortestGame: 0,
         },
-        allGameStats: {},
+        allGameStats: [{}],
       };
-      const myNewData: { [key: string]: object } = {};
+    }
+    setUserData(myNewData);
+  };
 
-      for (const category in categories) {
-        myNewData[category] = objectStructure;
-      }
-      setUserData(myNewData);
+  const getLocalStorageData = () => {
+    const data = localStorage.getItem("triviaData");
+
+    if (data) {
+      setUserData(JSON.parse(data));
+    } else {
+      initializeUserData();
     }
   };
 
   const setLocalStorageData = () => {
     //TODO: create data object
 
-    //TODO: create date
+    //TODO: create date -> get a location data and use that for the date
     const date = new Date().toJSON().slice(0, 19).replace("T", "_");
     const percent = Math.round((userCorrectAnswer / userPlayedGame) * 100);
 
-    const playedGame: { [key: string]: object } = {};
-
-    playedGame[date] = {
+    const playedGame = {
+      date: date,
       playedGame: userPlayedGame,
       correctAnswer: userCorrectAnswer,
       accuracy: percent,
@@ -144,20 +147,21 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     recordStats.bestAccuracy =
       recordStats.bestAccuracy > percent ? recordStats.bestAccuracy : percent;
 
-    allGameStats[date] = {
-      playedGame: userPlayedGame,
-      correctAnswer: userCorrectAnswer,
-      accuracy: percent,
-      earnPoints: userPoints,
-    };
+    allGameStats.push(playedGame);
 
-    console.log(gameStats, recordStats, allGameStats);
-    console.log(myData);
+    console.log(allGameStats);
+    /**
+     *
+     */
+
     setUserData(myData);
     localStorage.setItem("triviaData", JSON.stringify(myData));
   };
 
+  // clear user results
   const clearLocalStorageData = () => {
+    setUserData(null);
+    initializeUserData();
     localStorage.removeItem("triviaData");
   };
 
@@ -288,7 +292,6 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     setClickedIndex,
     disabledBtns,
     setDisabledBtns,
-    //TODO: this should be send to the EndGame page
     userPoints,
     userPlayedGame,
     userCorrectAnswer,
@@ -296,6 +299,7 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
     settledCategory,
     setLocalStorageData,
     clearLocalStorageData,
+    userData,
   };
 
   return (

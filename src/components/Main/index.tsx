@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { GameContext } from "../../context/GameContext";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 
 function Main() {
   const { categories, gameStart } = useContext(GameContext) || {};
@@ -32,6 +33,14 @@ function Main() {
             </Link>
           );
         })}
+      </div>
+      <div className="fixed top-2 right-3">
+        <Link
+          to={"user"}
+          className="duration-200 text-3xl  hover:dark:text-pink-700 hover:text-pink-500  font-bold"
+        >
+          <CgProfile />
+        </Link>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { GameContext } from "../../context/GameContext";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import GameButton from "../../components/GameButton";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillFire, AiFillStar } from "react-icons/ai";
 
 const Game = () => {
   const {
@@ -42,7 +42,6 @@ const Game = () => {
   };
 
   const handleExitButton = () => {
-    console.log("clickssss");
     if (setLocalStorageData) {
       setLocalStorageData();
     }
@@ -118,11 +117,17 @@ const Game = () => {
   const GameContent = () => {
     return (
       <div className="w-4/5">
-        <h2 className="text-2xl text-center">
-          {userPoints} Point(s) / {userPlayedGame} Game(s)
-        </h2>
-        <h3 className="text-3xl font-bold mt-5">{playingQuestion}</h3>
-        <div className="flex flex-wrap justify-between my-10  w-full">
+        <div className="text-4xl text-center flex justify-between">
+          <div className="flex">
+            <AiFillStar /> {userPoints}
+          </div>
+          <div className="flex">
+            {userPlayedGame} <AiFillFire />
+          </div>
+        </div>
+        <h3 className="text-2xl font-bold mt-1">{playingQuestion}</h3>
+
+        <div className="flex flex-wrap justify-between my-2  w-full  overflow-auto max-h-[50vh]">
           {playingAnswers?.map((answer, index) => {
             const isClicked = clickedIndex === index;
             return (
