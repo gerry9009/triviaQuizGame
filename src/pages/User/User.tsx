@@ -12,10 +12,33 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
+interface GameStats {
+  allPlayedGame: number;
+  allCorrectAnswer: number;
+  accuracy: number;
+}
+
+interface RecordStats {
+  maxEarnPoints: number;
+  bestAccuracy: number;
+  longestGame: number;
+  shortestGame: number;
+}
+
+interface GameResult {
+  playedGame: number;
+  correctAnswer: number;
+  accuracy: number;
+  earnPoints: number;
+  date: string;
+}
+
 interface UserData {
-  gameStats: object;
-  recordStats: object;
-  allGameStats: [];
+  [key: string]: {
+    gameStats?: GameStats;
+    recordStats?: RecordStats;
+    allGameStats?: GameResult[];
+  };
 }
 
 const User = () => {
@@ -23,19 +46,23 @@ const User = () => {
     useContext(GameContext) || {};
 
   const [selectedCategory, setSelectedCategory] = useState<keyof UserData>();
-  const [allGame, setAllGame] = useState({});
-  const [myRecords, setMyRecords] = useState({});
-  const [allPlayedGameStats, setAllPlayedGameStats] = useState([]);
+  const [allGame, setAllGame] = useState<GameStats | undefined>(undefined);
+  const [myRecords, setMyRecords] = useState<RecordStats | undefined>(
+    undefined
+  );
+  const [allPlayedGameStats, setAllPlayedGameStats] = useState<
+    GameResult[] | undefined
+  >([]);
 
   const listOfCategories: string[] = categories ? Object.keys(categories) : [];
-  const userDataTyped: UserData | null = userData as UserData | null;
+  const userDataTyped = userData as UserData;
 
   useEffect(() => {
     if (userDataTyped && selectedCategory) {
       const results = userDataTyped[selectedCategory];
 
-      if ("allGameStats" in results) {
-        const { allGameStats, gameStats, recordStats } = results;
+      if (results) {
+        const { gameStats, recordStats, allGameStats } = results;
 
         setAllGame(gameStats);
         setMyRecords(recordStats);
@@ -44,7 +71,7 @@ const User = () => {
     }
   }, [selectedCategory, userDataTyped]);
 
-  const Option = ({ category }: { category: string }) => {
+  const Option = ({ category }: { category: string }): JSX.Element => {
     return <option value={category}>{category}</option>;
   };
 
@@ -53,11 +80,11 @@ const User = () => {
     setSelectedCategory(target);
   };
 
-  const SelectList = () => {
+  const SelectList = (): JSX.Element => {
     return (
       <>
         <label htmlFor="categories" className="block mb-2 font-medium text-2xl">
-          Select an Category
+          Select a Category
         </label>
         <select
           id="categories"
@@ -74,7 +101,7 @@ const User = () => {
     );
   };
 
-  const GameStats = () => {
+  const GameStats = (): JSX.Element => {
     return (
       <>
         <p>Total games played: {allGame?.allPlayedGame}</p>
@@ -84,7 +111,7 @@ const User = () => {
     );
   };
 
-  const RecordStats = () => {
+  const RecordStats = (): JSX.Element => {
     return (
       <>
         <p>Most points earned: {myRecords?.maxEarnPoints}</p>

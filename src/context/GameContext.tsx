@@ -112,7 +112,10 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
 
     //TODO: create date -> get a location data and use that for the date
     const date = new Date().toJSON().slice(0, 19).replace("T", "_");
-    const percent = Math.round((userCorrectAnswer / userPlayedGame) * 100);
+    const percent =
+      userCorrectAnswer > 0
+        ? Math.round((userCorrectAnswer / userPlayedGame) * 100)
+        : 0;
 
     const playedGame = {
       date: date,
@@ -127,9 +130,12 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
 
     gameStats.allPlayedGame += userPlayedGame;
     gameStats.allCorrectAnswer += userCorrectAnswer;
-    gameStats.accuracy = Math.round(
-      (gameStats.allCorrectAnswer / gameStats.allPlayedGame) * 100
-    );
+    gameStats.accuracy =
+      gameStats.allPlayedGame > 0
+        ? Math.round(
+            (gameStats.allCorrectAnswer / gameStats.allPlayedGame) * 100
+          )
+        : 0;
 
     recordStats.longestGame =
       recordStats.longestGame > userPlayedGame
@@ -148,11 +154,6 @@ const GameContextProvider: React.FC<MyContextProviderProps> = ({
       recordStats.bestAccuracy > percent ? recordStats.bestAccuracy : percent;
 
     allGameStats.push(playedGame);
-
-    console.log(allGameStats);
-    /**
-     *
-     */
 
     setUserData(myData);
     localStorage.setItem("triviaData", JSON.stringify(myData));
