@@ -63,7 +63,7 @@ const User = () => {
 
       if (results) {
         const { gameStats, recordStats, allGameStats } = results;
-
+        console.log(allGameStats);
         setAllGame(gameStats);
         setMyRecords(recordStats);
         setAllPlayedGameStats(allGameStats);
