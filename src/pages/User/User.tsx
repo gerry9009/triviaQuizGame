@@ -11,6 +11,7 @@ import {
   AiFillStar,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import ModalWindow from "../../components/ModalWindow";
 
 interface GameStats {
   allPlayedGame: number;
@@ -53,6 +54,7 @@ const User = () => {
   const [allPlayedGameStats, setAllPlayedGameStats] = useState<
     GameResult[] | undefined
   >([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   const listOfCategories: string[] = categories ? Object.keys(categories) : [];
   const userDataTyped = userData as UserData;
@@ -63,7 +65,9 @@ const User = () => {
 
       if (results) {
         const { gameStats, recordStats, allGameStats } = results;
+
         console.log(allGameStats);
+
         setAllGame(gameStats);
         setMyRecords(recordStats);
         setAllPlayedGameStats(allGameStats);
@@ -78,6 +82,16 @@ const User = () => {
   const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const target = e.target.value as keyof UserData;
     setSelectedCategory(target);
+  };
+  //TODO: -------------------------------------
+  const handleClearResult = () => {
+    if (clearLocalStorageData) {
+      clearLocalStorageData();
+    }
+  };
+
+  const handleModalWindow = () => {
+    setIsVisible((isVisible) => !isVisible);
   };
 
   const SelectList = (): JSX.Element => {
@@ -134,10 +148,13 @@ const User = () => {
     };
   }) => {
     const { date, playedGame, correctAnswer, accuracy, earnPoints } = result;
+
+    const formattedDate = date ? date.replace("_", " ") : "";
+
     return (
       <div>
         <ul className="flex justify-between  border ">
-          <li className="basis-4/12 border">{date.replace("_", " ")}</li>
+          <li className="basis-4/12 border">{formattedDate}</li>
           <li className="basis-2/12 border">{playedGame}</li>
           <li className="basis-2/12 border">{correctAnswer}</li>
           <li className="basis-2/12 border">{earnPoints}</li>
@@ -201,14 +218,14 @@ const User = () => {
         <h1 className="font-bold text-5xl dark:text-pink-500 text-pink-700 mb-3">
           Profile
         </h1>
-        <Link to="/">
-          <button
-            className="dark:text-pink-500 text-pink-700 underline"
-            onClick={clearLocalStorageData}
-          >
-            Delete your results
-          </button>
-        </Link>
+
+        <button
+          className="dark:text-pink-500 text-pink-700 underline"
+          onClick={handleModalWindow}
+        >
+          Delete your results
+        </button>
+
         <SelectList />
         <Content />
         <div className="fixed top-2 right-3">
@@ -219,6 +236,13 @@ const User = () => {
             <BiHomeAlt2 />
           </Link>
         </div>
+        <ModalWindow
+          functionality={handleClearResult}
+          message="Do you want to delete all your results?"
+          route="/"
+          state={isVisible}
+          setState={setIsVisible}
+        />
       </div>
     </Layout>
   );

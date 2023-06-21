@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import GameButton from "../../components/GameButton";
 import { AiFillCloseCircle, AiFillFire, AiFillStar } from "react-icons/ai";
+import ModalWindow from "../../components/ModalWindow";
 
 const Game = () => {
   const {
@@ -68,52 +69,6 @@ const Game = () => {
     );
   };
 
-  const ModalWindow = () => {
-    const handleClickWindow = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const elementType = target.tagName;
-
-      const isItClose = elementType === "DIV" || elementType === "H2";
-      if (isVisible && isItClose) {
-        setIsVisible((isVisible) => !isVisible);
-      }
-    };
-
-    useEffect(() => {
-      window.addEventListener("click", handleClickWindow);
-
-      return () => {
-        window.removeEventListener("click", handleClickWindow);
-      };
-    }, []);
-
-    return (
-      <div
-        className={`${
-          isVisible ? "visible" : "hidden"
-        } fixed top-0 left-0 w-full h-full  bg-gray-900/95 z-10 text-white flex flex-col justify-center items-center text-4xl`}
-      >
-        <h2 className="text-5xl mb-20 font-bold text-center">
-          Want to stop your game with the current result?
-        </h2>
-        <div className="mt-20  flex flex-row w-full h-1/5 sm:w-4/5 md:w-3/5 max-w-[800px] justify-around items-center flex-wrap gap-x-20 ">
-          <Link
-            to="/finished"
-            className="w-5/12 max-w-[175px] min-w-[125px] text-center button"
-          >
-            <button onClick={handleExitButton}>Yes</button>
-          </Link>
-          <button
-            onClick={() => setIsVisible((isVisible) => !isVisible)}
-            className="w-5/12 max-w-[175px] min-w-[125px] text-center button"
-          >
-            No
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   const GameContent = () => {
     return (
       <div className="w-4/5">
@@ -148,7 +103,13 @@ const Game = () => {
             <AiFillCloseCircle />
           </button>
         </div>
-        <ModalWindow />
+        <ModalWindow
+          functionality={handleExitButton}
+          message="Do you want to stop the game with the current result?"
+          route="/finished"
+          state={isVisible}
+          setState={setIsVisible}
+        />
       </div>
     );
   };
